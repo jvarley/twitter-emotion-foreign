@@ -1,0 +1,4 @@
+import docclass as dc
+
+classifier = dc.naivebayes(dc.getwords)
+classifier.setdb()
