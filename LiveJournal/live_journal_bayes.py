@@ -153,6 +153,7 @@ emotion_groups["sick"] = {'sick':1,'in pain':1}
 emotion_groups["remove"] = {'souffrante..':1,'rushed':1, 'glouton':1,'embarrassed':1,'devious':1,'broke':1,'blank':1,'artistic':1,'Calme':1,'traumatized':1,'tanning':1,'so damn lucky':1,'sereine':1,'riche':1,'pleased':1,'older':1,'nerdy':1,'giggly':1, 'flirty':1,'everything':1,'envious':1,'distressed':1,'determined':1, 'chipper':1,'careless':1,'bitchy':1, 'better':1,'Oups':1,'Miam miam':1,'Miam':1,"J'adore":1,'Hum hum':1,'Cheburashka':1,'Berk berk':1,'.':1,"-Sens de l'humour 5/10":1}
 
 def processed_fs(fs):
+    emotion_list = []
     for page in fs:
         text = page[2]
         emotion = page[3]
@@ -166,11 +167,21 @@ def processed_fs(fs):
                 grouped_emotion = emotion_group
         print "updated: " + grouped_emotion
         print "get rid of removed!!!"
+        if grouped_emotion != 'remove':
+            emotion_list.append([text, emotion, grouped_emotion])
+    return emotion_list
         
 if __name__ == "__main__":
     #run3()
-    #fs = fetchBasicFeatureSet()
-    #processed_fs = processed_fs(fs)
+    fs = fetchBasicFeatureSet()
+    processed_fs = processed_fs(fs)
     classifier = nbc.naivebayes(nbc.getwords)
-    print classifier.classify("L'amour s'en va comme cette eau courante L'amour s'en va")
+    classifier.setdb()
+    for item in processed_fs:
+        text = item[0]
+        emotion = item[1]
+        grouped_emotion = item[2]
+        classifier.train(text, grouped_emotion)
+
+    #print classifier.classify("L'amour s'en va comme cette eau courante L'amour s'en va")
    
