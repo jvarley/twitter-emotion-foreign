@@ -154,8 +154,9 @@ def processed_fs(fs):
             if emotion_groups[emotion_group].has_key(emotion):
                 grouped_emotion = emotion_group
         print "updated: " + grouped_emotion
-        if grouped_emotion != "remove":
-            emotion_list.append((text,emotion,grouped_emotion))
+        print "get rid of removed!!!"
+        if grouped_emotion != 'remove':
+            emotion_list.append([text, emotion, grouped_emotion])
     return emotion_list
         
 
@@ -165,11 +166,16 @@ if __name__ == "__main__":
     fs = fetchBasicFeatureSet()
     processed_fs = processed_fs(fs)
     classifier = nbc.naivebayes(nbc.getwords)
+
     classifier.setdb();
+
     for item in processed_fs:
         text = item[0]
         emotion = item[1]
         grouped_emotion = item[2]
-        classifier.train(text,grouped_emotion)
-    #emotion_grup = classifier.classify("L'amour s'en va comme cette eau courante L'amour s'en va")
-    
+
+        classifier.train(text, grouped_emotion)
+
+    #print classifier.classify("L'amour s'en va comme cette eau courante L'amour s'en va")
+   
+
