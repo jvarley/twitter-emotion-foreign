@@ -15,14 +15,20 @@ def getwords(doc):
   return dict([(w,1) for w in words])
 
 class classifier:
-  def __init__(self,getfeatures,filename=None):
+  def __init__(self,getfeatures,classifier_dict = None, filename=None):
+    if classifier_dict != None:
+      self.classifier_dict = classifier_dict
+      
+    
+    self.con = psycopg2.connect("dbname='nlptweets' host='localhost' user='jvarley' password='password'")
+    self.cur = self.con.cursor()
+
     # Counts of feature/category combinations
     self.fc={}
     # Counts of documents in each category
     self.cc={}
     self.getfeatures=getfeatures
-    self.con = psycopg2.connect("dbname='nlptweets' host='localhost' user='jvarley' password='password'")
-    self.cur = self.con.cursor()
+ 
     self.doc_count = 0
     self.Cache = {}
     self.Cache["cat_list"] = None
@@ -45,10 +51,16 @@ class classifier:
         % (count+1,f,cat)) 
   
   def fcount(self,f,cat):
-    self.cur.execute("SELECT * FROM bayes_classifier WHERE feature='%s' AND category='%s';" %(f,cat))
-    res = self.cur.fetchone()
-    if res==None: return 0
-    else: return float(res[2])
+    if self.classifier_dict != None:
+      if self.classifier_dict.has_key(cat+f):
+        return self.classifier_dict[cat+f]
+      else:
+        return 0
+    else:
+      self.cur.execute("SELECT * FROM bayes_classifier WHERE feature='%s' AND category='%s';" %(f,cat))
+      res = self.cur.fetchone()
+      if res==None: return 0
+      else: return float(res[2])
 
   def incc(self,cat):
     count=self.catcount(cat)
@@ -67,7 +79,7 @@ class classifier:
         self.Cache["category_count"][cat] = float(res[0])
       else:
         self.Cache["category_count"][cat] = float(0)
-
+      
     return self.Cache["category_count"][cat]
 
   def categories(self):
@@ -125,23 +137,19 @@ class classifier:
 
 class naivebayes(classifier):
   
-  def __init__(self,getfeatures):
-    classifier.__init__(self,getfeatures)
+  def __init__(self,getfeatures,classifier_dict= None):
+    classifier.__init__(self,getfeatures,classifier_dict)
     self.thresholds={}
   
   def docprob(self,item,cat):
     features=self.getfeatures(item)  
-    #print "features: " + str(features)
 
     # Multiply the probabilities of all the features together
     p=1
     #for f in features: p*=self.weightedprob(f,cat,self.fprob)
     for f in features: 
       p*=self.weightedprob(f,cat,self.fprob)
-      #print f
-      
-      
-    print "probability that: " + str(item)+ " is in category: " + str(cat) + " is: " + str(p)
+
     return p
 
   def prob(self,item,cat):
@@ -156,11 +164,10 @@ class naivebayes(classifier):
     if cat not in self.thresholds: return 1.0
     return self.thresholds[cat]
   
-  def classify(self,item,default=None):
+  def classify(self,item):
     probs={}
     # Find the category with the highest probability
     max=0.0
-    starttime = datetime.datetime.now()
     for cat in self.categories():
       probs[cat]=self.prob(item,cat)
       if probs[cat]>max: 
@@ -171,7 +178,7 @@ class naivebayes(classifier):
     for cat in probs:
       if cat==best: continue
       if probs[cat]*self.getthreshold(best)>probs[best]: return default
-    print "start: " + str(starttime) + " endtime: " + str(datetime.datetime.now())
+    #print "start: " + str(starttime) + " endtime: " + str(datetime.datetime.now())
     return best
 
 

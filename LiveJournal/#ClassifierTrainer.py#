@@ -1,0 +1,16 @@
+import codecs
+import nltk
+import docclass as nbc
+import re
+
+class ClassifierTrainer():
+    def run(self):
+        fs = self.fetchBasicFeatureSet()
+        processed_fs = self.processed_fs(fs)
+        classifier = nbc.naivebayes(nbc.getwords)
+        classifier.setdb();
+        for item in processed_fs:
+            text = item[0]
+            emotion = item[1]
+            grouped_emotion = item[2]
+            classifier.train(text,grouped_emotion)

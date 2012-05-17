@@ -1,0 +1,24 @@
+import docclass as nbc 
+import re
+import threading
+from Queue import Queue
+
+class MultiThreadClassifier(threading.Thread):
+    def __init__(self,pull_queue,tablename= "tweets2", ):
+        self.pull_queue=pull_queue
+        self.classifier = nbc.naivebayes(nbc.getwords)
+        self.con = psycopg2.connect("dbname='nlptweets' host='localhost' user='jvarley' password='password'")
+        self.cur = self.con.cursor()
+        threading.Thread.__init__(self)
+        
+    def run(self):
+        while True:
+            entry = pull_queue.get()
+            text = entry[1]
+            row_id = entry[0]
+            classification = classifier.classify(text)
+            self.write_output(row_id,classification)
+
+    def write_output(row_id,classification):
+        self.cur.execute("UPDATE tweets2 SET GOODBAD=%s WHERE ID=%s;" %(classification,row_id))
+        self.con.commit()

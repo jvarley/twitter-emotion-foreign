@@ -1,0 +1,20 @@
+import threading
+from Queue import Queue
+
+if __name__ == "__main__":
+    #each tweet consists of the text and row_id
+    tweet_list = grab_tweets()
+    #so we know how many tweets there are
+    num_tweets = len(tweet_list)
+    #a list of threads
+    threads = []
+    num_threads = 10
+    #initialize the threads
+    for i in range(num_threads):
+        threads.append(MultiThreadClassifier(i,num_tweets,num_threads,tweet_list))
+        
+    #start the threads running
+    for thread in threads:
+        thread.start()
+
+    
