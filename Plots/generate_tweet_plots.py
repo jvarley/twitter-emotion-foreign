@@ -114,6 +114,7 @@ def plot_totals():
     ax.plot(rx,ry,'o-')
     plt.show()
 
+
 def plot_happy():
     rx,ry =grab_totals()
     rx_happy,ry_happy = grab_totals("happy")
@@ -225,7 +226,7 @@ def plot_drunk():
     rx,ry =grab_totals()
     rx_happy,ry_happy = grab_totals("happy")
     rx_sad, ry_sad = grab_totals("sad")
-    rx_drunk,ry_drunk = grab_totals("drunk")
+    rx_drunk,ry_drunk = grab_totals("contemplative")
     #rx_tired,ry_tired = grab_totals("tired")
     for i in range(len(ry_happy)):
         ry_happy[i] = ry_happy[i]/float(ry[i])
@@ -237,8 +238,8 @@ def plot_drunk():
 
     fig = plt.figure()
     plt.xlabel("Hours Since 4pm EST")
-    plt.ylabel("Percentage of Total Tweets That are Drunk")
-    plt.title("Daily Drunk Tweet Percentages")
+    plt.ylabel("Percentage of Total Tweets That are Contemplative")
+    plt.title("Daily Contemplative Tweet Percentages")
     ax = fig.add_subplot(111)
     ax.plot(rx,ry_drunk,'o-')
     #ax.plot(rx,ry_sad,'o-')
@@ -246,7 +247,72 @@ def plot_drunk():
     #ax.plot(rx,ry_calm,'o-')
     plt.show()
 
+def plot_lonely_vs_optimistic():
+    rx,ry =grab_totals()
+    rx_lonely,ry_lonely = grab_totals("cynical")
+    rx_optimistic, ry_optimistic = grab_totals("optimistic")
+    lonely_sum = 0
+    optimistic_sum = 0
+    ry_ratio = []
+    for i in range(len(ry)-1):
+        ry_lonely[i] = ry_lonely[i]/float(ry[i])
+        ry_optimistic[i] = ry_optimistic[i]/float(ry[i])
+        print "ry_lonely: " + str(ry_lonely[i])
+        print "ry_optimistic: " + str(ry_optimistic[i])
+        ry_ratio.append(ry_optimistic[i]+.1/(float(ry_lonely[i])+.1))
+
+
+    rx = range(len(rx)-1)
+
+    fig = plt.figure()
+    plt.xlabel("Hours Since 4pm EST")
+    plt.ylabel("Percentage of Total Tweets That are Drunk")
+    plt.title("Daily Drunk Tweet Percentages")
+    ax = fig.add_subplot(111)
+    #ax.plot(rx,ry_lonely,'o-')
+    #ax.plot(rx,ry_optimistic,'o-')
+    ax.plot(rx,ry_ratio,'o-')
+    #ax.plot(rx,ry_calm,'o-')
+    plt.show()
+
+def plot_daily_trends():
+    emotion_groups = {}   
+    #emotion_groups["happy"] = {'happy':1,'cheerful':1,'bouncy':1,'good':1,'excited':1, 'jubilant':1,'ecstatic':1,'silly':1, 'sunny':1}
+    #emotion_groups["calm"] = { 'calm' :1,'content':1, 'okay':1, 'satisfied':1, 'peaceful':1,'relaxed':1}
+    emotion_groups["contemplative"] = {"contemplative":1, "pensive":1}
+    emotion_groups["drunk"] = {"drunk":1,'just a little drunk':1}
+    #emotion_groups["sad"] = {'sad':1, 'disappointed':1, 'crappy':1, 'depressed':1, 'crushed':1, 'drained':1,  'blah':1,'gloomy':1, 'discontent':1, 'home sick':1, 'melancholy':1}
+    emotion_groups["annoyed"] = {'annoyed':1,'irritated':1,'uncomfortable':1,'stressed':1,'frustrated':1,'cranky':1}
+    emotion_groups["angry"] = {'angry':1, 'pissed off':1, 'irate':1,'infuriated':1}
+    #emotion_groups["tired"] = {'tired':1,'exhausted':1,'sleepy':1,' drained':1}
+    emotion_groups["bored"] = {'bored':1,'listless':1,'lazy':1,'indifferent':1,'lethargic':1}
+    emotion_groups["anxious"]  ={'anxious':1,'scared':1,'nervous':1,'worried':1}
+    emotion_groups["busy"] = {'busy':1,'working':1,'productive':1}
+    emotion_groups["grateful"] = {'grateful':1, 'touched':1, 'thankful':1}
+    emotion_groups["cold"] = {'cold':1, 'Il fait froid...!!!':1}
+    emotion_groups["sick"] = {'sick':1,'in pain':1}
+
+    rx,ry = grab_totals()
+    rx = range(len(rx))
+
+    fig = plt.figure()
+    plt.xlabel("Hours Since 4pm EST")
+    plt.ylabel("Percentage of Total Tweets Emotion")
+    plt.title("Tweet Category Percentages")
+    ax = fig.add_subplot(111)
+    for elt in emotion_groups.keys():
+        r_emo_x,r_emo_y = grab_totals(elt)
+        print r_emo_y
+        for i in range(len(r_emo_y)):
+            r_emo_y[i] = float(r_emo_y[i])/ry[i]
+        if len(r_emo_y) > 23:
+            ax.plot(rx,r_emo_y,'o-')
+    #ax.plot(rx,ry_calm,'o-')
+    plt.legend( (rects1[0]), ('Men') )
+    plt.show()
 
 #plot_tired_single_day()
 #grab_emotion_frequencies()
+#plot_drunk()
+#plot_lonely_vs_optimistic()
 plot_drunk()
