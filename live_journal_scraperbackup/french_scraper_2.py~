@@ -1,0 +1,283 @@
+from bs4 import BeautifulSoup
+from Queue import Queue
+import re
+import bs4.element as element
+import urllib2
+import threading
+import codecs
+from sets import Set
+class FrenchScraper():
+    def __init__(self):
+        self.blog_url_dict = {}
+        #list of dictionaries, each blog with an emotion 
+        #is a dict 
+        self.emo_blogs = []
+        self.run()
+        """
+        soup = self.get_soup('http://shysexkitten.livejournal.com/')
+        for row in soup():
+            found_mood,mood = self.recursive_mood_find(row,False,None)
+            #print found_mood
+            #print mood
+            if mood !=None: 
+                print mood
+                break
+        """
+
+    def run(self):
+        word_list = self.get_emotion_list()
+        print "word_list: "+ str(word_list)
+        user_names = []
+        for word in word_list:
+            user_names += self.scrape_emotion_page(word)
+            print ("obtained " +str(len(user_names)) +
+                   " usernames from: " + str(word) + "page")
+        blog_pages = []
+        for name in user_names:
+            print name
+            blog_pages += self.get_blog_pages_for_user(name)
+            print blog_pages[-10:-1]
+        #gets rid of duplicates
+        for blog in blog_pages:
+            self.blog_url_dict[blog] = True
+        for blog_url in self.blog_url_dict.keys():
+            blog = urllib2.urlopen('http://'+blog_url).read()
+            soup = BeautifulSoup(blog)
+            emotion = None
+            for row in soup():
+                found_mood,emotion = self.recursive_mood_find(row,False,emotion)
+                if emotion != None:
+                    print " I have found the emotion: "+ unicode(emotion).encode('utf8') + "\n For the page: " + unicode(blog_url).encode('utf8')
+                    break
+
+            if emotion != None:
+                emo_blog = {}
+                emo_blog['url'] = blog_url
+                emo_blog['mood'] = emotion
+                emo_blog['text'] = blog
+                self.emo_blogs.append(emo_blog)
+            
+
+    def get_soup(self,url):
+        page_text = urllib2.urlopen(url).read()
+        soup = BeautifulSoup(page_text)
+        return soup
+    def get_children(self,soup):
+        try:
+            return soup.children
+        except:
+            return None
+
+    def recursive_mood_find(self,child,found_mood,emotion):
+        if emotion != None:
+          return found_mood,emotion  
+        elif type(child) == element.NavigableString:
+            if (found_mood and child != " "):
+                #print ("the mood is : " +
+                #unicode(child).encode('utf8'))
+                found_mood = False
+                return found_mood,child
+            if (child.find("Current Mood:") != -1 or
+                child.find("mood:") != -1 or 
+                child.find("Humeur") !=-1 or
+                child.find("Mood:") != -1):
+                found_mood = True
+        else:
+            children = self.get_children(child)
+            if children != None:
+                for c in children:
+                    found_mood,emotion = self.recursive_mood_find(c,found_mood,emotion)
+
+        return found_mood,emotion
+
+
+
+
+    def get_blog_pages_for_user(self,user_name):
+        try:
+            url = 'http://' + user_name + '.livejournal.com'
+            page_text = urllib2.urlopen(url).read()
+            blog_urls = re.findall('('+user_name+'.livejournal.com/[0-9]*.html)',page_text)
+            return blog_urls
+        except:
+            print "didnt work"
+            return []
+
+    #looks at a topic page, and returns a list of usernames
+    def scrape_emotion_page(self,key_word= 'aimer'):
+        url = 'http://www.livejournal.com/interests.bml?int='+key_word
+        page_text = urllib2.urlopen(url).read()
+        users = re.findall(r'\buser=\w+',page_text)
+        users = [user[5:] for user in users]
+        #list of all the users whose names appear
+        #on the input topic page
+        return users
+
+
+    #grabs list of words to search livejournal 
+    #for to get lots of 
+    #emo french users
+    def get_emotion_list(self):
+        f = open('emotion_list.txt','r+')
+        text = f.read()
+        word_list = text.split()
+        return word_list
+
+
+#this class finds the blogs
+class BlogFinder(threading.Thread):
+    def __init__(self,blog_url_queue):
+        self.exit_queue = blog_url_queue
+        self.blog_url_dict = {}
+        threading.Thread.__init__(self)
+    
+
+    def run(self):
+        word_list = self.get_emotion_list()
+        print "word_list: "+ str(word_list)
+        user_names = []
+        for word in word_list:
+            user_names = self.scrape_emotion_page(word)
+            print ("obtained " +str(len(user_names)) +
+                   " usernames from: " + str(word) + "page")
+            blog_pages = []
+            for name in user_names:
+                print name
+                blog_pages = self.get_blog_pages_for_user(name)
+                #print blog_pages[-10:-1]
+                #gets rid of duplicates
+                for blog_url in blog_pages:
+                    if not self.blog_url_dict.has_key(blog_url):
+                        self.blog_url_dict[blog_url] = True
+                        self.exit_queue.put(blog_url)
+                    
+
+        
+    #grabs list of words to search livejournal 
+    #for to get lots of 
+    #emo french users
+    def get_emotion_list(self):
+        f = open('emotion_list.txt','r+')
+        text = f.read()
+        word_list = text.split()
+        return word_list
+
+       #looks at a topic page, and returns a list of usernames
+    def scrape_emotion_page(self,key_word= 'aimer'):
+        url = 'http://www.livejournal.com/interests.bml?int='+key_word
+        page_text = urllib2.urlopen(url).read()
+        users = re.findall(r'\buser=\w+',page_text)
+        users = [user[5:] for user in users]
+        #list of all the users whose names appear
+        #on the input topic page
+        return users
+    
+    def get_blog_pages_for_user(self,user_name):
+        try:
+            url = 'http://' + user_name + '.livejournal.com'
+            page_text = urllib2.urlopen(url).read()
+            blog_urls = re.findall('('+user_name+'.livejournal.com/[0-9]*.html)',page_text)
+            return blog_urls
+        except:
+            print "didnt work"
+            return []
+
+class BlogPageScraper(threading.Thread):
+    def __init__(self,blog_page_url_queue,filename):
+        self.entry_queue = blog_page_url_queue
+        self.emo_blogs = {}
+        self.filename = filename
+        threading.Thread.__init__(self)
+        
+    
+    def run(self):
+        while True:
+            blog_url = self.entry_queue.get()
+            print "BlogPageScraper working on: " + str(blog_url)
+            blog = urllib2.urlopen('http://'+blog_url).read()
+            soup = BeautifulSoup(blog)
+            emotion = None
+            for row in soup():
+                found_mood,emotion = self.recursive_mood_find(row,False,emotion)
+                if emotion != None:
+                    print " I have found the emotion: "+ unicode(emotion).encode('utf8') + "\n For the page: " + unicode(blog_url).encode('utf8')
+                    break
+
+            if emotion != None:
+                #emo_blog = {}
+                #emo_blog['url'] = blog_url
+                #emo_blog['mood'] = emotion
+                #emo_blog['text'] = blog
+                #self.emo_blogs.append(emo_blog)
+                try:
+                    self.f = codecs.open(self.filename,'a+',"utf-8")
+                    self.f.write("\n\n")
+                    self.f.write(blog_url.decode("utf8"))
+                    self.f.write("\n")
+                    self.f.write(emotion.decode("utf8"))
+                    self.f.write("\n")
+                    self.f.write(blog.decode('utf8'))
+                    self.f.close()
+                except:
+                    self.f.close()
+                    print  "failed to write from: "+ unicode(blog_url).encode("utf-8")
+
+    def get_children(self,soup):
+        try:
+            return soup.children
+        except:
+            return None
+    def recursive_mood_find(self,child,found_mood,emotion):
+        if emotion != None:
+          return found_mood,emotion  
+        elif type(child) == element.NavigableString:
+            if (found_mood and child != " "):
+                #print ("the mood is : " +
+                #unicode(child).encode('utf8'))
+                found_mood = False
+                return found_mood,child
+            if (child.find("Current Mood:") != -1 or
+                child.find("mood:") != -1 or 
+                child.find("Humeur") !=-1 or
+                child.find("Mood:") != -1):
+                found_mood = True
+        else:
+            children = self.get_children(child)
+            if children != None:
+                for c in children:
+                    found_mood,emotion = self.recursive_mood_find(c,found_mood,emotion)
+
+        return found_mood,emotion
+            
+
+class ProgressWatcher(threading.Thread):
+    def __init__(self,thread1,thread2):
+        self.thread1 = thread1
+        self.thread2 = thread2
+        threading.Thread.__init__(self)
+    def run(self):
+        self.thread1.join()
+        self.thread2.join(15)
+
+if __name__ == "__main__":
+    """
+    f_read = open('unicode_test','r+')
+    text = f_read.read()
+    fname = "unicode_test_2"
+    
+    for x in range(10000):
+        f = codecs.open(fname, "a+",'utf-8')
+        f.write(("hello" + text).decode("utf8"))
+        f.close()
+    """
+    q = Queue()
+    bf_thread = BlogFinder(q)
+    bps_thread = BlogPageScraper(q,'final_output.txt')
+    progress_watcher = ProgressWatcher(bf_thread,bps_thread)
+    #bf.run()
+    #fs = FrenchScraper()
+    bf_thread.start()
+    bps_thread.start()
+    progress_watcher.start()
+    
+    

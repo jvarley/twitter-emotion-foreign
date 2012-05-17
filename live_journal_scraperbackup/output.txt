@@ -1,0 +1,27 @@
+hi
+user_name: cremlian
+<class 'bs4.element.Tag'>
+None
+None
+<class 'bs4.element.Tag'>
+None
+None
+<class 'bs4.element.Tag'>
+None
+None
+<class 'bs4.element.Tag'>
+None
+None
+<class 'bs4.element.Tag'>
+None
+None
+<class 'bs4.element.Tag'>
+None
+None
+<class 'bs4.element.Tag'>
+None
+None
+<class 'bs4.element.Tag'>
+None
+None
+8

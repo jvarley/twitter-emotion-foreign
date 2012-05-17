@@ -1,0 +1,162 @@
+
+
+###BLOG_URL####9thdream.livejournal.com/4551.html#####
+#!#Emotion#!#lazy#!#!#!#
+
+
+
+
+
+
+
+You are viewing 9thdream's journal
+
+
+
+
+
+
+
+
+
+
+
+
+        jQuery( 'input.text' ).labeledPlaceholder();
+    
+
+
+
+
+
+
+            <!-- Hide from old browsers
+
+        // ********* ATTENTION *********
+        // Adv code wrapped in function below!
+            function fullscreenAShow()
+            {
+                // ********* CODE START *********
+            // Cache-busting and pageid values
+            if (!pageNum) var pageNum = Math.round(Math.random() * 10000000000);
+            document.write('<SCR');
+            document.write('IPT LANGUAGE="JavaScript" SRC="http://ad.doubleclick.net/adj/lj.servicepages/fullscreenadsbml;'
+                + 'a=1;r=0;w=1;wg=2;wa=19;wc=PL;wac=t;wac=br;wac=mo;wac=im;wac=mu;wi=anime;wi=kasie;wi=mange;wi=marie;wi=peszek;wi=music;wi=my;wi=chemical;wi=romance;wi=myslovitz;ra=19;rg=2;jid=13451038;kw=blah;c=jo;pt=jo;scn=yes;' + 'a=1;r=0;w=0;c=se;pt=se' + ';dcopt=ist;fs=1;sz=1x1,pos=r;tile=1;ord=' + pageNum + '?" TYPE="text/javascript">');
+            document.write('</SCR');
+            document.write('IPT>');
+                // ********* CODE FINISH *********
+            }
+            
+            
+            var fullscreenAName = 'ljfsads_client',
+                fullscreenACook = document.cookie.split(';'),
+                fullscreenAAllow = true,
+                fullscreenADomain = Site.siteroot,
+                fullscreenARef = document.referrer;
+            
+            fullscreenADomain = fullscreenADomain.split('.');
+            fullscreenADomain.shift();
+            fullscreenADomain = fullscreenADomain.join('.');
+            
+            for(var i = 0, l = fullscreenACook.length; i < l; i++) if(fullscreenACook[i].indexOf(fullscreenAName) > -1) fullscreenAAllow = false;
+            
+            if(fullscreenAAllow && fullscreenARef.indexOf(fullscreenADomain) > -1 && !document.location.pathname.match(/(\/shop\/|login\.bml|create\.bml)/))
+            {
+                fullscreenAShow();
+                var expires = new Date();
+                expires.setTime(expires.getTime() + (1 * 5 * 60 * 60 * 1000));
+                expires = '; expires=' + expires.toUTCString();
+                document.cookie = [fullscreenAName, '=1', expires, '; path=/', '; domain=.', fullscreenADomain].join('');
+            }
+            
+            // End Hide -->
+            
+
+
+
+
+[if IE]><script type="text/javascript">
+            if (liverailads1 = $('adContainer')) {
+                window.liverailads_insert = document.body.lastChild;
+                liverailads2 = document.getElementById('takeoverDiv');
+                ;(function(t){ t.insertAdjacentHTML('beforeBegin','<iframe id="takeoverFrame" src="about:blank" style="position:absolute;filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0);opacity:0;padding:0;margin:0;border:0;width:100%;height:400px;background:#fff;z-index:1499;top:0"></iframe>') }
+                )(liverailads_insert);
+                document.body.insertBefore(liverailads2, liverailads_insert);
+            }
+            function onLiveRailAdEnd() {
+                document.getElementById('takeoverFrame').style.display = 'none';
+            }
+            </script><![endif]
+
+                $('lr-close-btn') && ($('lr-close-btn').onclick = function()
+                {
+                    var liverailObject = $('liverailSWF');
+                    if (liverailObject && liverailObject.destroy) {
+                        try{liverailObject.destroy();}catch(e){}
+                    }
+                    // innerHTML for IE
+                    jQuery('#adContainer, #takeoverDiv').remove();
+                });
+            
+
+                <!-- Hide from old browsers
+                // Cache-busting and pageid values
+                if (!pageNum) var pageNum = Math.round(Math.random() * 10000000000);
+                document.write('<SCR');
+                document.write('IPT LANGUAGE="JavaScript" SRC="http://ad.doubleclick.net/adj/lj.ugc.entry/;'
+                    + 'a=1;r=0;w=1;wg=2;wa=19;wc=PL;wac=t;wac=br;wac=mo;wac=im;wac=mu;wi=anime;wi=kasie;wi=mange;wi=marie;wi=peszek;wi=music;wi=my;wi=chemical;wi=romance;wi=myslovitz;ra=19;rg=2;jid=13451038;kw=blah;c=jo;pt=jo;scn=yes;' + 'sz=728x90;pos=t;tile=1;ord=' + pageNum + '?" TYPE="text/javascript">');
+                document.write('</SCR');
+                document.write('IPT>');
+                // End Hide -->
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+Recent EntriesArchiveFriendsUser InfoMemories
+
+100% of fangirl  (just do not mess up with me, ok?)
+
+Just don't mess up with me
+ End Header Content 
+ End Header 
+
+Previous Entry | Next Entry
+
+
+
+
+
+
+łot, tak sobie
+
+
+Mar. 8th, 2008 at 6:02 PM
+
+
+
+  end asset-header 
+
+Tylko dla ludzi o mocnych nerwachNie żeby u mnie działo się coś ciekawego. Jakoś żyję, jakoś funkcjonuję, czas mi płynie w weekend bardzo, ale to bardzo powoli. W piątki śledzę Yuri (ha, to przeznaczenie, że się spotkałyśmy w Galaxy w piątek ^^), dziękuję Bogu, że zesłała mi kogoś takiego, jak Linę (kocham Cię, ale o tym wiesz :*). Tatuś się już uspokoił i jakoś przyjął do wiadomości, że puści swoje 16-sto letni dziecko na konwent w Krakowie. Jak nie pojadę, trudno, Mokon zawsze jest we wrześniu, w Warszawie XD.Tak, przykro mi, o Kandzie tym razem nie będzie. Powód? Po prostu nie skończyłam jego opisu, a co więcej, od paru ładnych tygodni nie napisałam jeszcze nic. Anie nie zrobiłam konkretnych zdjęć. Szkoda, prawda?Kocham moich rodziców. Kocham najmocniej na świecie, bo są to moi rodzice, którzy mnie wychowali na dobrą i grzeczną dziewczynę. Kocham ich za to, że gdy byłam mała zasadzili we mnie miłość do muzyki (tatuś) a mama jak i tata respekt do starszych. Tak, zostałam dobrze wychowana. Tak, mówię o tym otwarcie, bo jest o czym. Bo to oni kształtowali mnie, lepili z gliny, rzeźbili. I za to ich kocham. Bardzo, bardzo, bardzo mocno.Czy to jest normalne, że nie mogę znaleźć w internecie swojego miejsca? No, bo patrząc na te piętrzące się fora, nie ma takiego, konkretnego, które by mnie interesowało w stu procentach.Pamiętam moje pierwsze forum, ale takie naprawdę pierwsze. Byłam na nim kawał czasu, ale stwierdziłam, że ludzie, którzy tam piszą są głupi. To było forum o Naruto, i byłam tam na nim z przyjaciółką. Wtedy ona była przyjaciółką. Potem nie wiem, co się z nią stało. Została moderatorem i zrobiła się taka jakaś strasznie...ważna. No, nie ważne – potem zrobiłam aferę o ortografii (w moim mniemaniu, moderator na forum powinien dawać jakiś przykład, a nie robić błędy i literówki, w co drugim wyraźnie. Toż to koszmar!), tak zwaną „Ortograficzną Wojnę” i chyba ludzie mnie na tym forum pamiętają jako mającą bzika na punkcie ortografii dziewczynę.Potem zaczęłam siedzieć sobie na Gwendy, i już nie tak szybko doszłam do wniosku, że to nie dla mnie. Zrobiła się tam tak zwana „elyta”, mówili praktycznie o jednym (teraz będę miała traumę do końca życia, jak tylko usłyszę „Gryź”), ludzie zrobili się dziwni, niemili, zaczęło się rzucaniem błotem w nowych użytkowników, którzy zdaniem użytkowników „strachy” zepsuli jego klimat. Obecnie i tak chyba nikt ze „starych” zbytnio forum nie odwiedza, może tak sporadycznie, ale forum zrobiła się głupie i sux.W międzyczasie zakładałam własne fora – upadły, niestety. Forum o D.gray-man’ie jest jednym z lepszych, na jakich byłam (przyjazna atmosfera, fajni ludzie), chociaż trzeba trochę zmodernizować dział „Kultura”, ale nie musicie się martwić – ja się tym zajmę (:Tak, jestem na Mirriel. Tak, dałam tam jedną z moich prac. I mówię sobie „nigdy więcej” ci ludzie, którzy piszą tak zajebiste teksty, że szok max, mnie przerażają. Autentycznie.Może następnym razem zamieszczę tu moją internetową historię? Wprawdzie istnieje w internetowym światku już jakieś ładne 6 lat, ale kto wie, ile osób jeszcze mnie pamięta z moich początków? Kto wie...
+
+
+Mood:lazyMusic:Goldfrapp - Number 1
+
+Tags:
+
+blah blah blah
+
+
+
+
+
+3 comments

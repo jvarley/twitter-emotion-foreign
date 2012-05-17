@@ -1,0 +1,8 @@
+import nltk
+import codecs
+
+
+f = open('/output/final_output4fr')
+for line in f.readlines():
+    print line
+

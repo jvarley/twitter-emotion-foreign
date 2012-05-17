@@ -31,7 +31,7 @@ class MultiThreadClassifier(threading.Thread):
                 #print "failed!!!"
  
     def write_output(self,row_id,classification):
-        self.cur.execute("UPDATE tweets SET emotion= %s WHERE id= %s;" %(classification,row_id))
+        self.cur.execute("UPDATE tweets SET emotion = '%s' WHERE id= '%s';" %(classification,row_id))
         self.con.commit()
 
 

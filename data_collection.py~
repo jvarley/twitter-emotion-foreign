@@ -1,0 +1,5 @@
+#this file runs to collect data and store in a file
+
+def collect(fileName):
+    f.open(fileName,'r+')
+    
