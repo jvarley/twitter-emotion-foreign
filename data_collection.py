@@ -2,8 +2,8 @@
 import tweetstream
 import guess_language
 def collect(fileName):
-    f = open(fileName,'a')
     stream = tweetstream.SampleStream("varley_jake", "mypassword")
+    f = open(fileName,'a')
     for tweet in stream:
         #print tweet.keys()
         text = tweet.get('text')
